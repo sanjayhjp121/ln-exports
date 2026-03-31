@@ -78,24 +78,24 @@ export default async function ProductDetailPage({ params }: PageProps) {
   return (
     <div className="bg-stone-50 min-h-screen">
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-stone-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 text-xs text-stone-500 flex items-center gap-2">
-          <Link href="/" className="hover:text-amber-600 transition-colors">Home</Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-amber-600 transition-colors">Catalog</Link>
+      <div className="bg-[#1B2A5E] border-b border-[#2D4080]">
+        <div className="max-w-7xl mx-auto px-4 py-3 text-xs text-blue-200 flex items-center gap-2">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <span className="text-blue-400">/</span>
+          <Link href="/products" className="hover:text-white transition-colors">Catalog</Link>
           {product.category && (
             <>
-              <span>/</span>
+              <span className="text-blue-400">/</span>
               <Link
                 href={`/products?category=${product.category.slug.current}`}
-                className="hover:text-amber-600 transition-colors"
+                className="hover:text-white transition-colors"
               >
                 {product.category.title}
               </Link>
             </>
           )}
-          <span>/</span>
-          <span className="text-stone-700 font-medium truncate max-w-[180px]">{product.title}</span>
+          <span className="text-blue-400">/</span>
+          <span className="text-white font-medium truncate max-w-[180px]">{product.title}</span>
         </div>
       </div>
 
@@ -108,9 +108,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
           {/* Right: Product info */}
           <div>
-            <div className="text-amber-600 text-xs tracking-widest uppercase font-medium mb-2">
-              {product.category?.title}
-            </div>
+          <div className="text-[#8B1515] text-xs tracking-widest uppercase font-medium mb-2">
+            {product.category?.title}
+          </div>
             <h1 className="text-2xl md:text-3xl font-bold text-stone-800 mb-4">{product.title}</h1>
 
             {/* Status badge */}
@@ -119,7 +119,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 {product.inStock ? "In Stock" : "Contact for Availability"}
               </span>
               {product.featured && (
-                <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-amber-100 text-amber-700">
+                <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-red-100 text-[#8B1515]">
                   Featured
                 </span>
               )}
@@ -217,7 +217,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
         {/* Enquiry form */}
         <div className="mt-14 max-w-2xl mx-auto">
-          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-8 border-t-4 border-t-[#8B1515]">
             <h2 className="text-xl font-bold text-stone-800 mb-1">Send an Enquiry</h2>
             <p className="text-stone-500 text-sm mb-6">Interested in <strong>{product.title}</strong>? Fill in your details and we&apos;ll get back to you within 24 hours.</p>
             <EnquiryForm productTitle={product.title} />
@@ -225,9 +225,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
 
         {/* Related products */}
-        {related.length > 0 && (
+          {related.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-xl font-bold text-stone-800 mb-6">You May Also Like</h2>
+            <h2 className="text-xl font-bold text-stone-800 mb-6 flex items-center gap-3">
+              <span className="w-8 h-0.5 bg-[#8B1515] inline-block" />
+              You May Also Like
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {related.map((p) => (
                 <ProductCard key={p._id} product={p} />

@@ -28,12 +28,12 @@ export default async function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Page header */}
-      <div className="bg-stone-900 py-14 px-4">
+      {/* Page header — navy from logo */}
+      <div className="bg-[#1B2A5E] py-14 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-amber-400 text-xs tracking-[0.3em] uppercase font-medium mb-3">Our Collection</div>
+          <div className="text-red-300 text-xs tracking-[0.3em] uppercase font-medium mb-3">Our Collection</div>
           <h1 className="text-3xl md:text-4xl font-bold text-white">Stone Catalog</h1>
-          <p className="text-stone-400 mt-2 text-sm">
+          <p className="text-blue-100/70 mt-2 text-sm">
             {products.length > 0 ? `${products.length} products available` : "Connecting to catalog..."}
           </p>
         </div>

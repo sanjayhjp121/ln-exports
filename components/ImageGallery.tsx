@@ -66,7 +66,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
                 className={`relative flex-shrink-0 w-20 h-16 rounded-md overflow-hidden border-2 transition-colors ${
-                  idx === activeIndex ? "border-amber-600" : "border-transparent hover:border-stone-300"
+                  idx === activeIndex ? "border-[#8B1515]" : "border-transparent hover:border-stone-300"
                 }`}
               >
                 <Image

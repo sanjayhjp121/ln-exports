@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           {product.featured && (
-            <div className="absolute top-3 left-3 bg-amber-600 text-white text-xs px-2 py-0.5 rounded tracking-wider">
+            <div className="absolute top-3 left-3 bg-[#8B1515] text-white text-xs px-2 py-0.5 rounded tracking-wider">
               Featured
             </div>
           )}
@@ -47,10 +47,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Info */}
         <div className="p-4">
-          <div className="text-xs text-amber-600 font-medium tracking-widest uppercase mb-1">
+          <div className="text-xs text-[#8B1515] font-medium tracking-widest uppercase mb-1">
             {product.category?.title}
           </div>
-          <h3 className="text-stone-800 font-semibold text-base leading-snug group-hover:text-amber-700 transition-colors">
+          <h3 className="text-stone-800 font-semibold text-base leading-snug group-hover:text-[#8B1515] transition-colors">
             {product.title}
           </h3>
           <div className="mt-2 flex flex-wrap gap-2 items-center">
@@ -83,7 +83,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
           )}
-          <div className="mt-3 text-amber-700 text-xs font-medium tracking-wide flex items-center gap-1 group-hover:gap-2 transition-all">
+          <div className="mt-3 text-[#8B1515] text-xs font-medium tracking-wide flex items-center gap-1 group-hover:gap-2 transition-all">
             View Details
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

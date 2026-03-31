@@ -112,7 +112,7 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Email Address"
-              className="w-full bg-transparent border-b border-stone-400 py-3 text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-stone-400 text-stone-800"
+              className="w-full bg-transparent border-b border-stone-400 py-3 text-sm focus:outline-none focus:border-[#8B1515] transition-colors placeholder:text-stone-400 text-stone-800"
             />
             <button className="absolute right-0 bottom-3 text-primary uppercase font-bold text-[10px] tracking-widest">
               Join
