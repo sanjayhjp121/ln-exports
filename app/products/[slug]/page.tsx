@@ -201,7 +201,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210"}?text=${encodeURIComponent(`Hi, I'm interested in ${product.title}. Can you provide more details?`)}`}
+                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919820105837"}?text=${encodeURIComponent(`Hi, I'm interested in ${product.title}. Can you provide more details?`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 text-white py-3 rounded-lg text-sm font-medium transition-colors"

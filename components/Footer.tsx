@@ -1,20 +1,46 @@
+const CONTACT = {
+  email: "laxminath2005@yahoo.com",
+  phone1: "+91 9820105837",
+  phone2: "+91 9920105837",
+  whatsapp: "919820105837",
+  website: "www.lnexports.com",
+};
+
 export default function Footer() {
   return (
     <footer className="bg-stone-100 border-t border-stone-200">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 md:px-24 py-20 w-full max-w-[1920px] mx-auto">
         {/* Brand */}
-        <div className="space-y-8">
+        <div className="space-y-6">
           <div className="font-headline text-xl font-semibold text-stone-800 uppercase tracking-widest">
             LN EXPORTS
           </div>
           <p className="font-body text-sm tracking-tight text-stone-500 leading-relaxed max-w-xs">
             Curators of Indian geological excellence. Sourcing, processing, and exporting the world&apos;s most resilient artifacts.
           </p>
-          <div className="flex gap-4">
-            <a href="#" aria-label="Website" className="text-stone-400 hover:text-primary transition-colors">
-              <span className="material-symbols-outlined">public</span>
+          <div className="space-y-2 text-sm text-stone-500">
+            <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <span className="material-symbols-outlined text-base">mail</span>
+              {CONTACT.email}
             </a>
-            <a href="mailto:info@lnexports.com" aria-label="Email" className="text-stone-400 hover:text-primary transition-colors">
+            <a href={`tel:${CONTACT.phone1.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <span className="material-symbols-outlined text-base">phone</span>
+              {CONTACT.phone1}
+            </a>
+            <a href={`tel:${CONTACT.phone2.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <span className="material-symbols-outlined text-base">phone</span>
+              {CONTACT.phone2}
+            </a>
+            <a href={`https://${CONTACT.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <span className="material-symbols-outlined text-base">public</span>
+              {CONTACT.website}
+            </a>
+          </div>
+          <div className="flex gap-4 pt-2">
+            <a href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-stone-400 hover:text-primary transition-colors">
+              <span className="material-symbols-outlined">chat</span>
+            </a>
+            <a href={`mailto:${CONTACT.email}`} aria-label="Email" className="text-stone-400 hover:text-primary transition-colors">
               <span className="material-symbols-outlined">mail</span>
             </a>
             <a href="#" aria-label="Documents" className="text-stone-400 hover:text-primary transition-colors">

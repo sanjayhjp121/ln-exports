@@ -1,7 +1,7 @@
 "use client";
 
 export default function WhatsAppButton({ productTitle }: { productTitle?: string }) {
-  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210";
+  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919820105837";
   const message = productTitle
     ? `Hi, I'm interested in ${productTitle}. Can you provide more details?`
     : "Hi, I'd like to enquire about your stone products.";

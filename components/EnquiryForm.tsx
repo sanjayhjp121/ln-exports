@@ -8,7 +8,7 @@ interface EnquiryFormProps {
 
 export default function EnquiryForm({ productTitle }: EnquiryFormProps) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const email = process.env.NEXT_PUBLIC_COMPANY_EMAIL || "info@lnexports.com";
+  const email = process.env.NEXT_PUBLIC_COMPANY_EMAIL || "laxminath2005@yahoo.com";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -26,8 +26,9 @@ export const metadata: Metadata = {
     template: "%s | LN Exports",
   },
   description:
-    "LN Exports bridges the gap between raw geological wonder and architectural refinement, sourcing the finest natural stones from the heart of India.",
-  keywords: ["marble", "granite", "sandstone", "natural stone", "stone exporter", "India stone", "Rajasthan marble"],
+    "LN Exports — premium natural stone exporter from India. Marble, granite, sandstone & quartzite sourced from Rajasthan. Contact: laxminath2005@yahoo.com | +91 9820105837",
+  keywords: ["marble", "granite", "sandstone", "natural stone", "stone exporter", "India stone", "Rajasthan marble", "LN Exports"],
+  metadataBase: new URL("https://www.lnexports.com"),
 };
 
 export default function RootLayout({
