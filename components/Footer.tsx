@@ -6,15 +6,21 @@ const CONTACT = {
   website: "www.lnexports.com",
 };
 
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="bg-stone-100 border-t border-stone-200">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 md:px-24 py-20 w-full max-w-[1920px] mx-auto">
         {/* Brand */}
         <div className="space-y-6">
-          <div className="font-headline text-xl font-semibold text-stone-800 uppercase tracking-widest">
-            LN EXPORTS
-          </div>
+          <Image
+            src="/logo.png"
+            alt="LN Exports"
+            width={120}
+            height={120}
+            className="h-20 w-auto object-contain"
+          />
           <p className="font-body text-sm tracking-tight text-stone-500 leading-relaxed max-w-xs">
             Curators of Indian geological excellence. Sourcing, processing, and exporting the world&apos;s most resilient artifacts.
           </p>

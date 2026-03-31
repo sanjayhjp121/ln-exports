@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const NAV_LINKS = [
@@ -18,11 +19,15 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-[#fbf9f8]/80 backdrop-blur-xl border-b border-stone-200/20">
       <div className="flex justify-between items-center px-8 md:px-16 py-6 max-w-[1920px] mx-auto">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-2xl font-bold tracking-[0.1em] text-primary font-headline uppercase"
-        >
-          LN EXPORTS
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="LN Exports"
+            width={90}
+            height={90}
+            className="h-14 w-auto object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
