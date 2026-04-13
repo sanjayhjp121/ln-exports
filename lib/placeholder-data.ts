@@ -1,4 +1,5 @@
 import type { ProductSummary, Category } from "@/types";
+import type { PortableTextBlock } from "@portabletext/react";
 
 const IMG = {
   absoluteBlack:
@@ -23,7 +24,19 @@ const IMG = {
     "https://lh3.googleusercontent.com/aida-public/AB6AXuAh2f1dIiZdtOy15POc1ZxLpwu69j_OnGJcbG2lrlyDu4EAqnfsYJq1U8qaE4oVXdQRE3rvf8UOEmJzfp9axbops62Biu6ZfCymWEo1zwg8Tah4QXeJw6Sy5YcJCu3U9kCr30H5WaSoqBHu2WkxhByhTbDOUmF4Fh7CC1Gcm8-sk6eF8EYecsOa5r0znbCHUFLnt4NEQ6tOOAxvlO_aiBGSalRDKrbplYkoETXPhdPgzLuPrpbckWBNk_k8udfzYxcuE8bG6FcVvfxZ",
   whiteMarble:
     "https://lh3.googleusercontent.com/aida-public/AB6AXuDHHC7SLX_Jqp3XHymLdewJ8kDVyo2ZQYnD8Mp6VKczqGcPsUpPvm-bE7ps6UNOhapsZ6UUrdiEYPHD51r6Zb9fZwqiJ_UKFak-gmQc33qmd_4GxnDrc4S5NK9z-RxesLz0v1p4Jgc0hiE7BWvqHInSX8o2_TMgqN3UFUI_9BnQotaDcND50vSIhyBtDVHk7idDg9gHJ7ka7xBWdn7SZujRwyf7NTuoCiFTCxWXVWLMKSPeflQp6ioKIaqr_ZK_zqH5sdn6tYrcPVAp",
+  makranaWhite:
+    "https://lh3.googleusercontent.com/aida-public/AB6AXuDHHC7SLX_Jqp3XHymLdewJ8kDVyo2ZQYnD8Mp6VKczqGcPsUpPvm-bE7ps6UNOhapsZ6UUrdiEYPHD51r6Zb9fZwqiJ_UKFak-gmQc33qmd_4GxnDrc4S5NK9z-RxesLz0v1p4Jgc0hiE7BWvqHInSX8o2_TMgqN3UFUI_9BnQotaDcND50vSIhyBtDVHk7idDg9gHJ7ka7xBWdn7SZujRwyf7NTuoCiFTCxWXVWLMKSPeflQp6ioKIaqr_ZK_zqH5sdn6tYrcPVAp",
 };
+
+function textToPortableText(paragraphs: string[]): PortableTextBlock[] {
+  return paragraphs.map((text, i) => ({
+    _type: "block" as const,
+    _key: `block-${i}`,
+    style: "normal" as const,
+    children: [{ _type: "span" as const, _key: `span-${i}`, text, marks: [] as string[] }],
+    markDefs: [],
+  })) as unknown as PortableTextBlock[];
+}
 
 export const PLACEHOLDER_CATEGORIES: Category[] = [
   { _id: "cat-granite", title: "Granite", slug: { current: "granite" }, description: "Igneous rock, 6–7 Mohs hardness", order: 1 },
@@ -38,7 +51,11 @@ export const PLACEHOLDER_CATEGORIES: Category[] = [
 
 export interface PlaceholderProduct extends Omit<ProductSummary, "images"> {
   imageUrl: string;
+  imageUrls: string[];
   images: [];
+  description?: PortableTextBlock[];
+  thickness?: string[];
+  seoDescription?: string;
 }
 
 export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
@@ -52,10 +69,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Karnataka, India",
     color: "Black",
     finish: ["Polished", "Honed", "Flamed", "Leather"],
-    applications: ["Kitchen Countertops", "Flooring", "Wall Cladding"],
-    availableSizes: ["240×120 cm", "300×180 cm", "60×60 cm"],
+    applications: ["Kitchen Countertops", "Flooring", "Wall Cladding", "Staircases", "Monuments"],
+    availableSizes: ["240×120 cm", "300×180 cm", "300×200 cm", "60×60 cm", "60×30 cm"],
     images: [],
     imageUrl: IMG.absoluteBlack,
+    imageUrls: [IMG.absoluteBlack, IMG.slatestone, IMG.quartziteNatural],
+    thickness: ["15 mm", "18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Absolute Black Granite is one of the most sought-after natural stones globally, quarried from the ancient geological formations of Karnataka, India. Its deep, uniform black colour with zero veining makes it the gold standard for modern architectural projects.",
+      "The stone's exceptional hardness (6.5 on the Mohs scale) and extremely low water absorption make it ideal for high-traffic flooring, kitchen countertops, and exterior cladding. It resists scratching, staining, and heat, making it a lifetime investment.",
+      "Available in slabs, tiles, and custom gangso cuts, Absolute Black Granite can be finished in mirror-polished, honed matte, flamed textured, or leathered surfaces — each bringing out a distinct character from the same stone.",
+    ]),
+    seoDescription: "Premium Absolute Black Granite from Karnataka, India. Zero-vein, mirror-polished surface ideal for countertops, flooring, and wall cladding. Available in slabs, tiles, and custom cuts.",
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -67,10 +92,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Andhra Pradesh, India",
     color: "Brown",
     finish: ["Polished", "Honed", "Leather"],
-    applications: ["Countertops", "Flooring", "Staircases"],
+    applications: ["Countertops", "Flooring", "Staircases", "Wall Panels"],
     availableSizes: ["240×120 cm", "300×180 cm"],
     images: [],
     imageUrl: IMG.quartziteNatural,
+    imageUrls: [IMG.quartziteNatural, IMG.sandstone, IMG.absoluteBlack],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Tan Brown Granite features a rich tapestry of brown, black, and grey mineral crystals that create a warm, inviting surface. Quarried from the Prakasam district of Andhra Pradesh, this stone has been a favourite in European and North American markets for decades.",
+      "Its consistent pattern and warm earth tones make it exceptionally versatile — pairing beautifully with both light and dark cabinetry in kitchens, and adding warmth to commercial lobbies and staircases.",
+    ]),
+    seoDescription: "Tan Brown Granite from Andhra Pradesh. Warm brown tones with crystalline patterns, ideal for countertops, flooring, and commercial spaces.",
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -82,10 +114,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Tamil Nadu, India",
     color: "White",
     finish: ["Polished", "Honed"],
-    applications: ["Kitchen Countertops", "Bathroom Vanities", "Flooring"],
-    availableSizes: ["240×120 cm", "300×200 cm", "60×60 cm"],
+    applications: ["Kitchen Countertops", "Bathroom Vanities", "Flooring", "Wall Cladding"],
+    availableSizes: ["240×120 cm", "300×200 cm", "60×60 cm", "60×30 cm"],
     images: [],
     imageUrl: IMG.whiteMarble,
+    imageUrls: [IMG.whiteMarble, IMG.limestone, IMG.quartz],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Kashmir White Granite is a luminous white stone with delicate flecks of grey, garnet red, and occasional mica sparkle. Despite its name, it is primarily quarried from the Krishnagiri and Dharmapuri districts of Tamil Nadu.",
+      "Its bright, airy appearance makes it a top choice for kitchens and bathrooms where a clean, spacious feel is desired. The subtle mineral inclusions add depth without overwhelming the design, making it a versatile partner for nearly any design palette.",
+      "Kashmir White is especially popular in Scandinavian and minimalist interior designs, where its quiet elegance enhances natural light and creates a sense of calm sophistication.",
+    ]),
+    seoDescription: "Kashmir White Granite with luminous white base and subtle garnet flecks. Perfect for bright, modern kitchens and bathroom vanities.",
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -97,10 +137,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Andhra Pradesh, India",
     color: "Grey",
     finish: ["Polished", "Flamed", "Bush-hammered"],
-    applications: ["Exterior Cladding", "Flooring", "Countertops"],
-    availableSizes: ["240×120 cm", "300×180 cm"],
+    applications: ["Exterior Cladding", "Flooring", "Countertops", "Monuments"],
+    availableSizes: ["240×120 cm", "300×180 cm", "60×60 cm"],
     images: [],
     imageUrl: IMG.slatestone,
+    imageUrls: [IMG.slatestone, IMG.absoluteBlack, IMG.pebbles],
+    thickness: ["18 mm", "20 mm", "30 mm", "40 mm"],
+    description: textToPortableText([
+      "Steel Grey Granite is a medium-grained igneous stone with a steel-blue grey base interspersed with black and light grey mineral flecks. Its industrial aesthetic and exceptional durability make it a staple for commercial and residential exteriors.",
+      "When flamed or bush-hammered, its surface develops a naturally slip-resistant texture, ideal for outdoor flooring, pool surrounds, and building facades. In polished form, it reveals a sophisticated depth that works beautifully as kitchen countertops.",
+    ]),
+    seoDescription: "Steel Grey Granite from Andhra Pradesh. Durable steel-blue grey stone ideal for exterior cladding, outdoor flooring, and modern countertops.",
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -112,10 +159,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Andhra Pradesh, India",
     color: "Black",
     finish: ["Polished", "Honed"],
-    applications: ["Countertops", "Feature Walls", "Fireplace Surrounds"],
+    applications: ["Countertops", "Feature Walls", "Fireplace Surrounds", "Luxury Flooring"],
     availableSizes: ["240×120 cm", "300×180 cm", "60×30 cm"],
     images: [],
     imageUrl: IMG.absoluteBlack,
+    imageUrls: [IMG.absoluteBlack, IMG.slatestone],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Black Galaxy Granite, also known as Star Galaxy, is a striking stone characterised by its deep black base studded with golden and copper-coloured mica flecks that shimmer like stars in a night sky. Quarried exclusively from the Ongole area of Andhra Pradesh.",
+      "This premium granite has been the stone of choice for luxury projects worldwide — from five-star hotel lobbies to private yacht interiors. When polished, the mica inclusions create a mesmerising depth that no engineered material can replicate.",
+      "Due to controlled quarrying and high global demand, availability can be limited. We recommend early enquiry to secure your desired quantity and slab selection.",
+    ]),
+    seoDescription: "Black Galaxy Granite with signature golden mica flecks. Premium luxury stone for countertops, feature walls, and high-end interiors.",
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
 
@@ -129,10 +184,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "White",
     finish: ["Polished", "Honed"],
-    applications: ["Flooring", "Wall Cladding", "Temple Architecture"],
-    availableSizes: ["240×120 cm", "300×180 cm", "60×60 cm"],
+    applications: ["Flooring", "Wall Cladding", "Temple Architecture", "Sculptures"],
+    availableSizes: ["240×120 cm", "300×180 cm", "60×60 cm", "Custom"],
     images: [],
-    imageUrl: IMG.whiteMarble,
+    imageUrl: IMG.makranaWhite,
+    imageUrls: [IMG.makranaWhite, IMG.whiteMarble, IMG.limestone],
+    thickness: ["16 mm", "18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Makrana White Marble is the legendary stone that built the Taj Mahal — one of the Seven Wonders of the World. Quarried from the historic mines of Makrana in Rajasthan, this marble has been prized for over four centuries for its pristine white body and subtle grey veining.",
+      "Unlike many commercial white marbles, Makrana marble possesses a natural translucency that seems to glow from within when back-lit. Its calcium carbonate composition gives it a warm, creamy undertone that photographs beautifully and ages with distinguished grace.",
+      "Every slab we supply is hand-selected at the quarry to ensure consistency of colour, minimal veining, and structural integrity. Available in both standard slab sizes and custom profiles for bespoke architectural projects.",
+    ]),
+    seoDescription: "Makrana White Marble — the marble of the Taj Mahal. Pristine white with subtle grey veining, ideal for luxury flooring, wall cladding, and temple architecture.",
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -144,10 +207,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Black",
     finish: ["Polished", "Honed", "Antiqued"],
-    applications: ["Luxury Interiors", "Feature Walls", "Reception Areas"],
+    applications: ["Luxury Interiors", "Feature Walls", "Reception Areas", "Bar Counters"],
     availableSizes: ["240×120 cm", "300×180 cm"],
     images: [],
     imageUrl: IMG.marble,
+    imageUrls: [IMG.marble, IMG.absoluteBlack, IMG.panels],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Portoro Gold Marble is one of the most dramatic natural stones in our collection. Its deep black base is laced with bold, flowing veins of gold and white calcite, creating a visual effect that is at once bold and supremely elegant.",
+      "This marble has long been associated with opulence and prestige, appearing in palatial residences, luxury hotel lobbies, and award-winning restaurant interiors across the world. The contrast between its dark base and golden veining makes it a natural focal point in any space.",
+      "Each slab is unique — we provide high-resolution slab photography so architects and designers can book-match or select individual slabs for their projects.",
+    ]),
+    seoDescription: "Portoro Gold Marble with dramatic gold veining on deep black. A statement of opulence for luxury interiors, feature walls, and high-end commercial spaces.",
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -159,10 +230,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Green",
     finish: ["Polished", "Honed", "Sandblasted"],
-    applications: ["Flooring", "Wall Cladding", "Decorative Panels"],
+    applications: ["Flooring", "Wall Cladding", "Decorative Panels", "Tabletops"],
     availableSizes: ["240×120 cm", "60×60 cm", "30×30 cm"],
     images: [],
     imageUrl: IMG.slatestone,
+    imageUrls: [IMG.slatestone, IMG.quartziteNatural],
+    thickness: ["16 mm", "18 mm", "20 mm"],
+    description: textToPortableText([
+      "Indian Green Marble, also known as Udaipur Green, is a serpentine marble with a rich forest-green base crossed by white and lighter green veins. Quarried from the Udaipur and Dungarpur regions of southern Rajasthan.",
+      "Its distinctive colouring brings a sense of nature and freshness to interior spaces. Popular for flooring in luxury homes, wall panelling in corporate offices, and decorative tabletops in hospitality projects.",
+    ]),
+    seoDescription: "Indian Green Marble from Rajasthan. Rich forest-green with white veining, ideal for luxury flooring, wall panels, and decorative applications.",
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -174,10 +252,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Brown",
     finish: ["Polished", "Honed"],
-    applications: ["Countertops", "Feature Walls", "Bathroom Vanities"],
+    applications: ["Countertops", "Feature Walls", "Bathroom Vanities", "Elevator Lobbies"],
     availableSizes: ["240×120 cm", "300×180 cm"],
     images: [],
     imageUrl: IMG.sandstone,
+    imageUrls: [IMG.sandstone, IMG.quartziteNatural, IMG.panels],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Rainforest Brown Marble is a visually striking metamorphic stone featuring swirling patterns of brown, cream, and grey that evoke the organic beauty of a tropical rainforest canopy. Each slab is a unique geological painting.",
+      "The dynamic movement in its veining makes it an architect's dream for statement walls, dramatic kitchen islands, and luxury bathroom surrounds. When book-matched, two slabs create a mirror-image pattern of extraordinary visual impact.",
+    ]),
+    seoDescription: "Rainforest Brown Marble with swirling organic patterns. Dramatic statement stone for feature walls, countertops, and luxury interiors.",
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -189,10 +274,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Multicolor",
     finish: ["Polished", "Honed", "Leather"],
-    applications: ["Kitchen Islands", "Backsplashes", "Bathroom Walls"],
+    applications: ["Kitchen Islands", "Backsplashes", "Bathroom Walls", "Reception Counters"],
     availableSizes: ["240×120 cm", "300×200 cm"],
     images: [],
     imageUrl: IMG.quartziteNatural,
+    imageUrls: [IMG.quartziteNatural, IMG.sandstone],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Fantasy Brown Marble is a captivating natural stone that blurs the line between marble and quartzite. Its soft waves of brown, grey, cream, and occasional green create a dreamlike landscape within each slab.",
+      "This stone's unique mineral composition gives it greater hardness than typical marbles while retaining the warmth and character that only natural marble can provide. It's become a designer favourite for open-concept kitchens where the island becomes the centrepiece of the entire living space.",
+    ]),
+    seoDescription: "Fantasy Brown Marble with soft waves of brown, grey, and cream. A designer favourite for kitchen islands and luxury bathroom walls.",
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
 
@@ -206,10 +298,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Brown",
     finish: ["Natural Split", "Honed", "Sandblasted"],
-    applications: ["Exterior Cladding", "Garden Landscaping", "Paving"],
-    availableSizes: ["60×60 cm", "60×30 cm", "Random"],
+    applications: ["Exterior Cladding", "Garden Landscaping", "Paving", "Pool Surrounds"],
+    availableSizes: ["60×60 cm", "60×30 cm", "Random", "Custom"],
     images: [],
     imageUrl: IMG.sandstone,
+    imageUrls: [IMG.sandstone, IMG.panels, IMG.pebbles],
+    thickness: ["20 mm", "25 mm", "30 mm", "50 mm"],
+    description: textToPortableText([
+      "Teak Sandstone, also known as Teak Wood Sandstone, is a sedimentary stone prized for its warm, wood-like grain patterns and rich brown tones. Quarried from the Jodhpur region of Rajasthan, this stone has been used in Indian architecture for centuries.",
+      "Its natural layered texture and warm colour palette make it an excellent choice for exterior facades, garden walls, and landscape paving. The stone's natural slip-resistance in its split-face finish makes it especially suitable for pool surrounds and outdoor walkways.",
+      "Teak Sandstone is frost-resistant and weathers gracefully over time, developing a distinguished patina that adds character to any project.",
+    ]),
+    seoDescription: "Teak Sandstone from Rajasthan with warm wood-like grain patterns. Ideal for exterior cladding, landscaping, paving, and pool surrounds.",
     category: { _id: "cat-sandstone", title: "Sandstone", slug: { current: "sandstone" } },
   },
   {
@@ -221,10 +321,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Multicolor",
     finish: ["Natural Split", "Honed"],
-    applications: ["Exterior Cladding", "Landscaping", "Pool Surrounds"],
+    applications: ["Exterior Cladding", "Landscaping", "Pool Surrounds", "Garden Pathways"],
     availableSizes: ["60×60 cm", "60×30 cm", "Random"],
     images: [],
     imageUrl: IMG.panels,
+    imageUrls: [IMG.panels, IMG.sandstone],
+    thickness: ["20 mm", "25 mm", "30 mm"],
+    description: textToPortableText([
+      "Rainbow Sandstone is a naturally multi-coloured sedimentary stone that displays bands of purple, pink, rust, yellow, and cream in flowing patterns unique to each piece. The colours are caused by varying iron oxide concentrations deposited over millions of years.",
+      "Its cheerful, earthy colour palette makes it a favourite for garden landscaping, exterior cladding, and pool surrounds where a natural, organic feel is desired.",
+    ]),
+    seoDescription: "Rainbow Sandstone with natural multi-colour bands. Perfect for landscaping, exterior cladding, and outdoor living spaces.",
     category: { _id: "cat-sandstone", title: "Sandstone", slug: { current: "sandstone" } },
   },
   {
@@ -236,10 +343,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Green",
     finish: ["Natural Split", "Honed", "Brushed"],
-    applications: ["Flooring", "Wall Cladding", "Pathways"],
+    applications: ["Flooring", "Wall Cladding", "Pathways", "Terrace Flooring"],
     availableSizes: ["60×90 cm", "60×30 cm", "30×30 cm"],
     images: [],
     imageUrl: IMG.limestone,
+    imageUrls: [IMG.limestone, IMG.slatestone],
+    thickness: ["18 mm", "20 mm", "25 mm"],
+    description: textToPortableText([
+      "Mint Sandstone is a soft green-toned sedimentary stone with a cool, minty hue that brings a refreshing natural quality to both interiors and exteriors. Quarried in the Kota and Bundi regions of Rajasthan.",
+      "Its subtle colour and even grain make it popular for large-format flooring, pathways, and terrace surfaces. It pairs beautifully with timber and greenery in landscape designs.",
+    ]),
+    seoDescription: "Mint Sandstone with cool green tones. Ideal for flooring, wall cladding, and landscape pathways.",
     category: { _id: "cat-sandstone", title: "Sandstone", slug: { current: "sandstone" } },
   },
 
@@ -253,10 +367,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Blue",
     finish: ["Honed", "Natural", "Polished"],
-    applications: ["Flooring", "Pathways", "Pool Decks"],
+    applications: ["Flooring", "Pathways", "Pool Decks", "Corridor Flooring"],
     availableSizes: ["60×60 cm", "60×30 cm", "30×30 cm"],
     images: [],
     imageUrl: IMG.limestone,
+    imageUrls: [IMG.limestone, IMG.slatestone, IMG.pebbles],
+    thickness: ["18 mm", "20 mm", "25 mm"],
+    description: textToPortableText([
+      "Kota Blue Limestone is one of India's most trusted flooring stones, quarried from the Kota district of Rajasthan. Its blue-grey colour, excellent hardness, and natural anti-skid surface have made it a staple in Indian homes, temples, and commercial buildings for generations.",
+      "Unlike most limestones which are soft, Kota stone is an exceptionally hard limestone — resistant to scratching, staining, and moisture penetration. This makes it one of the most cost-effective natural stone flooring solutions available.",
+      "Its cool surface stays comfortable underfoot even in tropical climates, making it a preferred choice for corridors, verandahs, and pool decks.",
+    ]),
+    seoDescription: "Kota Blue Limestone from Rajasthan. Exceptionally hard limestone ideal for flooring, pathways, pool decks, and high-traffic commercial areas.",
     category: { _id: "cat-limestone", title: "Limestone", slug: { current: "limestone" } },
   },
   {
@@ -268,10 +390,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Yellow",
     finish: ["Honed", "Natural Split", "Polished"],
-    applications: ["Exterior Cladding", "Flooring", "Feature Walls"],
+    applications: ["Exterior Cladding", "Flooring", "Feature Walls", "Building Facades"],
     availableSizes: ["60×60 cm", "60×30 cm", "Random"],
     images: [],
     imageUrl: IMG.sandstone,
+    imageUrls: [IMG.sandstone, IMG.panels],
+    thickness: ["20 mm", "25 mm", "30 mm", "50 mm"],
+    description: textToPortableText([
+      "Jaisalmer Yellow Limestone takes its name from the Golden City of Jaisalmer, where entire forts and havelis have been carved from this warm, honey-toned stone. Its golden yellow colour and fine grain create a luminous surface that glows warmly in natural light.",
+      "This limestone has been used in Rajasthani architecture for over 800 years and continues to be a preferred choice for heritage restoration, contemporary facades, and interior feature walls where a warm, sandstone-like aesthetic is desired.",
+    ]),
+    seoDescription: "Jaisalmer Yellow Limestone — the golden stone of Rajasthan. Warm honey tones ideal for building facades, flooring, and heritage architecture.",
     category: { _id: "cat-limestone", title: "Limestone", slug: { current: "limestone" } },
   },
 
@@ -285,10 +414,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Gujarat, India",
     color: "White",
     finish: ["Glossy", "Matt", "Carving"],
-    applications: ["Living Room Flooring", "Lobby", "Commercial Spaces"],
+    applications: ["Living Room Flooring", "Lobby", "Commercial Spaces", "Showrooms"],
     availableSizes: ["60×120 cm", "80×80 cm", "120×120 cm", "120×240 cm"],
     images: [],
     imageUrl: IMG.tiles,
+    imageUrls: [IMG.tiles, IMG.whiteMarble, IMG.marble],
+    thickness: ["9 mm", "10.5 mm"],
+    description: textToPortableText([
+      "Our Statuario Look Vitrified Tile faithfully reproduces the dramatic grey veining of Italian Statuario marble using advanced HD inkjet printing technology. The result is a stunning marble-effect surface with near-zero water absorption and exceptional durability.",
+      "Available in large formats up to 120×240 cm, these tiles create seamless, grout-minimised surfaces that rival the appearance of natural marble while offering the practical benefits of vitrified tile — stain resistance, uniform colour, and easy maintenance.",
+      "Manufactured in our partner facilities in Morbi, Gujarat, each tile undergoes rigorous quality control to ensure colour consistency across production batches.",
+    ]),
+    seoDescription: "Statuario Look Vitrified Tile with realistic marble-effect HD printing. Large formats available. Stain-resistant, low-maintenance alternative to natural marble.",
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
   {
@@ -300,10 +437,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Gujarat, India",
     color: "Beige",
     finish: ["Glossy", "Matt"],
-    applications: ["Bathroom Walls", "Feature Walls", "Flooring"],
+    applications: ["Bathroom Walls", "Feature Walls", "Flooring", "Spa Interiors"],
     availableSizes: ["60×120 cm", "80×160 cm"],
     images: [],
     imageUrl: IMG.whiteMarble,
+    imageUrls: [IMG.whiteMarble, IMG.tiles],
+    thickness: ["9 mm", "10.5 mm"],
+    description: textToPortableText([
+      "The Onyx Design Porcelain Tile captures the translucent warmth and flowing patterns of natural onyx in a dense-body porcelain format. Its creamy beige tones with honey and amber veining create an atmosphere of understated luxury.",
+      "Perfect for spa interiors, luxury bathroom walls, and backlit feature walls where the onyx-like translucency effect can be fully appreciated.",
+    ]),
+    seoDescription: "Onyx Design Porcelain Tile with translucent onyx-look surface. Ideal for luxury bathrooms, spa interiors, and backlit feature walls.",
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
   {
@@ -315,10 +459,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Gujarat, India",
     color: "Brown",
     finish: ["Matt", "Rustic", "Sugar"],
-    applications: ["Bedroom Flooring", "Living Room", "Outdoor Decks"],
+    applications: ["Bedroom Flooring", "Living Room", "Outdoor Decks", "Restaurant Interiors"],
     availableSizes: ["20×120 cm", "20×100 cm", "60×120 cm"],
     images: [],
     imageUrl: IMG.panels,
+    imageUrls: [IMG.panels, IMG.sandstone],
+    thickness: ["9 mm", "10.5 mm"],
+    description: textToPortableText([
+      "Our Wood Plank Digital Tiles replicate the warmth and texture of natural hardwood flooring using advanced digital printing and surface texturing technology. Available in plank formats that mimic real wood dimensions.",
+      "Unlike natural wood, these tiles are waterproof, scratch-resistant, and require zero maintenance. They are ideal for areas where real wood would struggle — bathrooms, kitchens, outdoor decks, and high-traffic commercial spaces.",
+    ]),
+    seoDescription: "Wood Plank Digital Tiles with realistic wood texture. Waterproof, scratch-resistant alternative to hardwood. Perfect for all environments.",
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
   {
@@ -330,10 +481,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Gujarat, India",
     color: "Grey",
     finish: ["Matt", "Rustic"],
-    applications: ["Kitchen Backsplash", "Bathroom Walls", "Commercial Walls"],
+    applications: ["Kitchen Backsplash", "Bathroom Walls", "Commercial Walls", "Cafe Interiors"],
     availableSizes: ["30×60 cm", "30×45 cm", "25×75 cm"],
     images: [],
     imageUrl: IMG.slatestone,
+    imageUrls: [IMG.slatestone, IMG.pebbles],
+    thickness: ["8 mm", "9 mm"],
+    description: textToPortableText([
+      "The Concrete Effect Wall Tile brings the raw, industrial aesthetic of poured concrete to interior walls with all the practicality of glazed ceramic. Its matt grey surface with subtle tonal variations creates a contemporary, urban atmosphere.",
+      "Lightweight and easy to install, these wall tiles are perfect for modern kitchen backsplashes, bathroom feature walls, and commercial spaces seeking an industrial-chic design language.",
+    ]),
+    seoDescription: "Concrete Effect Wall Tile with industrial grey aesthetic. Lightweight glazed ceramic for kitchen backsplashes and contemporary interiors.",
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
   {
@@ -345,10 +503,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Gujarat, India",
     color: "White",
     finish: ["Glossy", "Satin"],
-    applications: ["Living Room", "Hotel Lobbies", "Luxury Bathrooms"],
+    applications: ["Living Room", "Hotel Lobbies", "Luxury Bathrooms", "Reception Areas"],
     availableSizes: ["80×160 cm", "120×240 cm"],
     images: [],
     imageUrl: IMG.marble,
+    imageUrls: [IMG.marble, IMG.whiteMarble, IMG.tiles],
+    thickness: ["9 mm", "10.5 mm"],
+    description: textToPortableText([
+      "The Calacatta Gold PGVT (Polished Glazed Vitrified Tile) is our flagship large-format tile, reproducing the iconic Calacatta Gold marble with its bold golden veining on a pristine white background. Each tile features a unique face design for minimal repetition.",
+      "At sizes up to 120×240 cm, these tiles create dramatic, near-seamless surfaces in hotel lobbies, luxury living rooms, and reception areas. The polished glaze surface achieves a mirror-like finish that rivals natural marble.",
+      "PGVT technology ensures through-body colour consistency, meaning even cut edges maintain the design — perfect for waterfall countertops and wrapped surfaces.",
+    ]),
+    seoDescription: "Calacatta Gold PGVT Tile in large format up to 120×240 cm. Polished glazed vitrified tile with bold golden veining for luxury interiors.",
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
 
@@ -362,10 +528,18 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Engineered",
     color: "White",
     finish: ["Polished", "Honed"],
-    applications: ["Kitchen Countertops", "Bathroom Vanities", "Islands"],
+    applications: ["Kitchen Countertops", "Bathroom Vanities", "Islands", "Commercial Surfaces"],
     availableSizes: ["300×140 cm", "320×160 cm"],
     images: [],
     imageUrl: IMG.quartz,
+    imageUrls: [IMG.quartz, IMG.whiteMarble, IMG.tiles],
+    thickness: ["20 mm", "30 mm"],
+    description: textToPortableText([
+      "Calacatta Gold Quartz is our best-selling engineered stone, combining 93% natural quartz crystals with polymer resins to create a surface that captures the beauty of Italian Calacatta marble with none of its maintenance demands.",
+      "Its non-porous surface is inherently resistant to staining, bacterial growth, and etching from acidic foods — making it the practical choice for busy family kitchens. The bold golden veining is engineered to flow continuously across the slab for a natural, book-matched appearance.",
+      "Available in jumbo slab sizes up to 320×160 cm and in both 20mm and 30mm thicknesses, allowing seamless waterfall edges and integrated sink solutions.",
+    ]),
+    seoDescription: "Calacatta Gold Quartz — engineered perfection. Non-porous, stain-resistant surface with bold golden veining. Ideal for kitchen countertops and commercial surfaces.",
     category: { _id: "cat-quartz", title: "Quartz", slug: { current: "quartz" } },
   },
   {
@@ -377,10 +551,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Engineered",
     color: "Black",
     finish: ["Polished", "Leather"],
-    applications: ["Countertops", "Bar Tops", "Fireplace Surrounds"],
+    applications: ["Countertops", "Bar Tops", "Fireplace Surrounds", "Bathroom Vanities"],
     availableSizes: ["300×140 cm", "300×160 cm"],
     images: [],
     imageUrl: IMG.absoluteBlack,
+    imageUrls: [IMG.absoluteBlack, IMG.slatestone],
+    thickness: ["20 mm", "30 mm"],
+    description: textToPortableText([
+      "Midnight Black Quartz offers the deepest black available in engineered stone — a pure, uniform surface with zero pattern variation. Its minimalist aesthetic makes it the go-to choice for modern kitchens, sleek bar tops, and dramatic fireplace surrounds.",
+      "The leathered finish option adds a subtle textured surface that reduces fingerprint visibility while maintaining the stone's striking dark character.",
+    ]),
+    seoDescription: "Midnight Black Quartz — pure, uniform black engineered stone. Non-porous and stain-resistant. Available in polished and leather finishes.",
     category: { _id: "cat-quartz", title: "Quartz", slug: { current: "quartz" } },
   },
   {
@@ -392,10 +573,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Engineered",
     color: "Grey",
     finish: ["Honed", "Textured"],
-    applications: ["Kitchen Countertops", "Commercial Surfaces"],
+    applications: ["Kitchen Countertops", "Commercial Surfaces", "Office Desks", "Reception Counters"],
     availableSizes: ["300×140 cm", "320×160 cm"],
     images: [],
     imageUrl: IMG.pebbles,
+    imageUrls: [IMG.pebbles, IMG.slatestone],
+    thickness: ["20 mm", "30 mm"],
+    description: textToPortableText([
+      "Concrete Grey Quartz brings the raw beauty of polished concrete to countertop surfaces without any of the cracking, staining, or sealing concerns. Its cool grey tone with subtle aggregate-like flecks creates a sophisticated industrial aesthetic.",
+      "The honed finish provides a smooth, low-sheen surface that pairs beautifully with stainless steel appliances and timber cabinetry in contemporary kitchen designs.",
+    ]),
+    seoDescription: "Concrete Grey Quartz with industrial concrete aesthetic. Low-maintenance engineered stone for modern kitchens and commercial surfaces.",
     category: { _id: "cat-quartz", title: "Quartz", slug: { current: "quartz" } },
   },
 
@@ -409,10 +597,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Andhra Pradesh, India",
     color: "Black",
     finish: ["Natural Split", "Honed", "Calibrated"],
-    applications: ["Roofing", "Flooring", "Wall Cladding"],
-    availableSizes: ["60×30 cm", "30×30 cm", "Random"],
+    applications: ["Roofing", "Flooring", "Wall Cladding", "Fireplace Surrounds"],
+    availableSizes: ["60×30 cm", "30×30 cm", "Random", "Custom"],
     images: [],
     imageUrl: IMG.slatestone,
+    imageUrls: [IMG.slatestone, IMG.absoluteBlack],
+    thickness: ["10 mm", "15 mm", "20 mm"],
+    description: textToPortableText([
+      "Black Slate is a fine-grained foliated metamorphic stone characterised by its deep charcoal-black colour and distinctive natural cleft surface. Quarried from the Markapur region of Andhra Pradesh, this slate has been used for roofing, flooring, and cladding for centuries.",
+      "Its natural cleft provides a beautifully textured, slip-resistant surface that is ideal for wet areas, outdoor flooring, and contemporary wall cladding. When calibrated, it delivers a consistent thickness suitable for precision floor installations.",
+    ]),
+    seoDescription: "Black Slate from Andhra Pradesh. Natural cleft surface for roofing, flooring, and wall cladding. Slip-resistant and weather-durable.",
     category: { _id: "cat-slatestone", title: "Slatestone", slug: { current: "slatestone" } },
   },
   {
@@ -424,10 +619,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Multicolor",
     finish: ["Natural Split", "Calibrated"],
-    applications: ["Feature Walls", "Exterior Cladding", "Landscape"],
+    applications: ["Feature Walls", "Exterior Cladding", "Landscape", "Garden Walls"],
     availableSizes: ["60×30 cm", "30×15 cm", "Random"],
     images: [],
     imageUrl: IMG.panels,
+    imageUrls: [IMG.panels, IMG.sandstone, IMG.quartziteNatural],
+    thickness: ["10 mm", "15 mm", "20 mm"],
+    description: textToPortableText([
+      "Rusty Slate is a naturally multi-toned slate stone featuring warm bands of rust, copper, gold, grey, and brown. Each piece displays a unique colour composition, making it a favourite for artisan-style feature walls and landscape cladding.",
+      "The natural iron oxide content in the stone creates its signature rusty tones, which evolve subtly over time as the stone weathers — adding character and warmth to exterior installations.",
+    ]),
+    seoDescription: "Rusty Slate with warm rust, copper, and gold tones. Ideal for feature walls, exterior cladding, and landscape architecture.",
     category: { _id: "cat-slatestone", title: "Slatestone", slug: { current: "slatestone" } },
   },
 
@@ -441,10 +643,17 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Grey",
     finish: ["Honed", "Natural Split", "Leathered"],
-    applications: ["Countertops", "Flooring", "Exterior Cladding"],
+    applications: ["Countertops", "Flooring", "Exterior Cladding", "Feature Walls"],
     availableSizes: ["240×120 cm", "300×180 cm"],
     images: [],
     imageUrl: IMG.quartziteNatural,
+    imageUrls: [IMG.quartziteNatural, IMG.slatestone, IMG.pebbles],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Silver Quartzite is a naturally occurring metamorphic stone with a shimmering silver-grey base crossed by subtle veins of white and dark grey. Its high quartz content (above 90%) gives it exceptional hardness — rivalling granite while retaining the beauty of marble.",
+      "This stone is increasingly popular as a countertop material for homeowners who desire the look of marble with significantly greater durability and resistance to etching. Its natural shimmer adds a luminous quality to any surface.",
+    ]),
+    seoDescription: "Silver Quartzite with shimmering grey surface and exceptional hardness. A marble-look alternative with granite-like durability for countertops and cladding.",
     category: { _id: "cat-quartzite", title: "Quartzite", slug: { current: "quartzite" } },
   },
   {
@@ -456,10 +665,29 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
     origin: "Rajasthan, India",
     color: "Yellow",
     finish: ["Honed", "Natural Split", "Polished"],
-    applications: ["Feature Walls", "Flooring", "Outdoor Areas"],
+    applications: ["Feature Walls", "Flooring", "Outdoor Areas", "Building Facades"],
     availableSizes: ["60×30 cm", "30×30 cm", "Random"],
     images: [],
     imageUrl: IMG.sandstone,
+    imageUrls: [IMG.sandstone, IMG.panels, IMG.limestone],
+    thickness: ["18 mm", "20 mm", "30 mm"],
+    description: textToPortableText([
+      "Golden Quartzite is a warm-toned metamorphic stone with a golden yellow base highlighted by rustic brown and cream bands. Its high silica content ensures extreme hardness and weather resistance, making it suitable for both interior and exterior applications.",
+      "When used as a split-face wall cladding, Golden Quartzite creates textured surfaces that catch light beautifully, adding depth and warmth to building facades and interior feature walls.",
+    ]),
+    seoDescription: "Golden Quartzite with warm golden tones and extreme hardness. Weather-resistant stone for building facades, feature walls, and outdoor flooring.",
     category: { _id: "cat-quartzite", title: "Quartzite", slug: { current: "quartzite" } },
   },
 ];
+
+/** Look up a full product by slug */
+export function getPlaceholderProductBySlug(slug: string): PlaceholderProduct | undefined {
+  return PLACEHOLDER_PRODUCTS.find((p) => p.slug.current === slug);
+}
+
+/** Find related products in the same category (excluding current) */
+export function getRelatedPlaceholderProducts(categoryId: string, currentSlug: string): PlaceholderProduct[] {
+  return PLACEHOLDER_PRODUCTS.filter(
+    (p) => p.category._id === categoryId && p.slug.current !== currentSlug,
+  ).slice(0, 4);
+}

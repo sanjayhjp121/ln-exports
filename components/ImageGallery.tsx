@@ -7,19 +7,111 @@ import { urlFor } from "@/sanity/lib/image";
 
 interface ImageGalleryProps {
   images: SanityImage[];
+  imageUrls?: string[];
   title: string;
 }
 
-export default function ImageGallery({ images, title }: ImageGalleryProps) {
+export default function ImageGallery({ images, imageUrls, title }: ImageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  if (!images || images.length === 0) {
+  const useDirectUrls = imageUrls && imageUrls.length > 0;
+  const totalImages = useDirectUrls ? imageUrls.length : images?.length || 0;
+
+  if (totalImages === 0) {
     return (
-      <div className="aspect-[4/3] bg-stone-100 rounded-xl flex items-center justify-center">
-        <svg className="w-16 h-16 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+      <div className="aspect-[4/3] bg-stone-100 rounded-[0.125rem] flex items-center justify-center">
+        <span className="material-symbols-outlined text-6xl text-stone-300">image</span>
+      </div>
+    );
+  }
+
+  if (useDirectUrls) {
+    const activeUrl = imageUrls[activeIndex];
+
+    return (
+      <div>
+        <div
+          className="relative aspect-[4/3] bg-stone-100 rounded-[0.125rem] overflow-hidden cursor-zoom-in group"
+          onClick={() => setLightboxOpen(true)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={activeUrl}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-3 right-3 bg-black/30 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-[0.125rem] flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="material-symbols-outlined text-sm">zoom_in</span>
+            Zoom
+          </div>
+        </div>
+
+        {totalImages > 1 && (
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            {imageUrls.map((url, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`relative flex-shrink-0 w-20 h-16 rounded-[0.125rem] overflow-hidden border-2 transition-colors ${
+                  idx === activeIndex ? "border-primary" : "border-transparent hover:border-stone-300"
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={url}
+                  alt={`${title} ${idx + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {lightboxOpen && (
+          <div
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <button
+              className="absolute top-4 right-4 text-white hover:text-stone-300 transition-colors z-10"
+              onClick={() => setLightboxOpen(false)}
+            >
+              <span className="material-symbols-outlined text-3xl">close</span>
+            </button>
+            <div className="relative max-w-5xl w-full max-h-[90vh] aspect-[4/3]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrls[activeIndex]}
+                alt={title}
+                className="w-full h-full object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+            {totalImages > 1 && (
+              <>
+                <button
+                  className="absolute left-4 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveIndex((i) => (i - 1 + totalImages) % totalImages);
+                  }}
+                >
+                  <span className="material-symbols-outlined">arrow_back</span>
+                </button>
+                <button
+                  className="absolute right-4 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveIndex((i) => (i + 1) % totalImages);
+                  }}
+                >
+                  <span className="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -30,9 +122,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <div>
-      {/* Main image */}
       <div
-        className="relative aspect-[4/3] bg-stone-100 rounded-xl overflow-hidden cursor-zoom-in"
+        className="relative aspect-[4/3] bg-stone-100 rounded-[0.125rem] overflow-hidden cursor-zoom-in group"
         onClick={() => setLightboxOpen(true)}
       >
         <Image
@@ -48,15 +139,12 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             <p className="text-white text-xs">{activeImage.caption}</p>
           </div>
         )}
-        <div className="absolute top-3 right-3 bg-black/30 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-          </svg>
+        <div className="absolute top-3 right-3 bg-black/30 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-[0.125rem] flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="material-symbols-outlined text-sm">zoom_in</span>
           Zoom
         </div>
       </div>
 
-      {/* Thumbnails */}
       {images.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {images.map((img, idx) => {
@@ -65,8 +153,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
-                className={`relative flex-shrink-0 w-20 h-16 rounded-md overflow-hidden border-2 transition-colors ${
-                  idx === activeIndex ? "border-[#8B1515]" : "border-transparent hover:border-stone-300"
+                className={`relative flex-shrink-0 w-20 h-16 rounded-[0.125rem] overflow-hidden border-2 transition-colors ${
+                  idx === activeIndex ? "border-primary" : "border-transparent hover:border-stone-300"
                 }`}
               >
                 <Image
@@ -82,21 +170,18 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         </div>
       )}
 
-      {/* Lightbox */}
       {lightboxOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setLightboxOpen(false)}
         >
           <button
-            className="absolute top-4 right-4 text-white hover:text-stone-300 transition-colors"
+            className="absolute top-4 right-4 text-white hover:text-stone-300 transition-colors z-10"
             onClick={() => setLightboxOpen(false)}
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <span className="material-symbols-outlined text-3xl">close</span>
           </button>
-          <div className="relative max-w-4xl w-full max-h-[90vh] aspect-[4/3]">
+          <div className="relative max-w-5xl w-full max-h-[90vh] aspect-[4/3]">
             <Image
               src={lightboxUrl}
               alt={activeImage.alt || title}
@@ -109,26 +194,22 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           {images.length > 1 && (
             <>
               <button
-                className="absolute left-4 text-white hover:text-stone-300 transition-colors"
+                className="absolute left-4 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveIndex((i) => (i - 1 + images.length) % images.length);
                 }}
               >
-                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <span className="material-symbols-outlined">arrow_back</span>
               </button>
               <button
-                className="absolute right-4 text-white hover:text-stone-300 transition-colors"
+                className="absolute right-4 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveIndex((i) => (i + 1) % images.length);
                 }}
               >
-                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </>
           )}
