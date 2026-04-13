@@ -60,19 +60,42 @@ export default function Footer() {
           <h4 className="font-headline text-sm font-bold text-stone-800 uppercase tracking-widest">
             Materials
           </h4>
+          <ul className="space-y-2">
+            {[
+              { label: "Granite", href: "/products?category=granite" },
+              { label: "Marble", href: "/products?category=marble" },
+              { label: "Tiles", href: "/products?category=tiles" },
+              { label: "Sandstone", href: "/products?category=sandstone" },
+              { label: "Limestone", href: "/products?category=limestone" },
+              { label: "Engineered Quartzite", href: "/products?category=quartzite" },
+              { label: "Slatestone", href: "/products?category=slatestone" },
+              { label: "Panels & Mosaics", href: "/products?category=panels" },
+            ].map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="text-stone-500 font-body text-sm tracking-tight hover:translate-x-1 hover:text-stone-900 transition-all block"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <h4 className="font-headline text-sm font-bold text-stone-800 uppercase tracking-widest pt-4">
+            Also Trading
+          </h4>
           <ul className="space-y-3">
-            {["Exotic Marbles", "Structural Granite", "Heritage Sandstone", "Architectural Slate"].map(
-              (item) => (
-                <li key={item}>
-                  <a
-                    href="/products"
-                    className="text-stone-500 font-body text-sm tracking-tight hover:translate-x-1 hover:text-stone-900 transition-all block"
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            )}
+            {["TMT Bars & Steel", "Food Exports"].map((item) => (
+              <li key={item}>
+                <a
+                  href="/contact"
+                  className="text-stone-500 font-body text-sm tracking-tight hover:translate-x-1 hover:text-stone-900 transition-all block"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 

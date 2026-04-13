@@ -7,12 +7,15 @@ import ProductCard from "@/components/ProductCard";
 const COLOR_OPTIONS = ["White", "Beige", "Grey", "Black", "Brown", "Green", "Blue", "Red", "Yellow", "Multicolor"];
 const FINISH_OPTIONS = ["Polished", "Honed", "Brushed", "Sandblasted", "Leathered", "Flamed", "Natural Split"];
 
+type ProductWithImage = ProductSummary & { imageUrl?: string };
+
 interface CatalogClientProps {
-  products: ProductSummary[];
+  products: ProductWithImage[];
   categories: Category[];
 }
 
-export default function CatalogClient({ products, categories }: CatalogClientProps) {
+export default function CatalogClient({ products: rawProducts, categories }: CatalogClientProps) {
+  const products = rawProducts as ProductWithImage[];
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedColor, setSelectedColor] = useState<string>("all");
   const [selectedFinish, setSelectedFinish] = useState<string>("all");
@@ -62,67 +65,72 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
     );
   }
 
+  const categoryCount = useMemo(() => {
+    const counts: Record<string, number> = {};
+    products.forEach((p) => {
+      const slug = p.category?.slug?.current;
+      if (slug) counts[slug] = (counts[slug] || 0) + 1;
+    });
+    return counts;
+  }, [products]);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
       {/* Search + filter toggle */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-8">
         <div className="relative flex-1">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-xl">search</span>
           <input
             type="search"
-            placeholder="Search stones, origins..."
+            placeholder="Search by name, origin, material..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1515] focus:border-transparent text-stone-800"
+            className="w-full pl-11 pr-4 py-3 border border-stone-200 rounded-[0.125rem] text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-stone-800"
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium transition-colors ${showFilters ? "bg-[#1B2A5E] text-white border-[#1B2A5E]" : "border-stone-200 text-stone-700 bg-white hover:border-stone-300"}`}
+          className={`flex items-center gap-2 px-5 py-3 border rounded-[0.125rem] text-sm font-label font-bold uppercase tracking-widest transition-colors ${showFilters ? "bg-brand-navy text-white border-brand-navy" : "border-stone-200 text-stone-700 bg-white hover:border-primary hover:text-primary"}`}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
+          <span className="material-symbols-outlined text-lg">tune</span>
           Filters
-          {hasFilters && <span className="w-2 h-2 rounded-full bg-[#8B1515] flex-shrink-0" />}
+          {hasFilters && <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
         </button>
         {hasFilters && (
-          <button onClick={clearFilters} className="text-sm text-stone-500 hover:text-stone-700 px-2 transition-colors">
+          <button onClick={clearFilters} className="text-sm text-stone-500 hover:text-primary px-2 transition-colors font-medium">
             Clear all
           </button>
         )}
       </div>
 
       {/* Category tabs */}
-      <div className="flex gap-2 flex-wrap mb-6">
+      <div className="flex gap-2 flex-wrap mb-8">
         <button
           onClick={() => setSelectedCategory("all")}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedCategory === "all" ? "bg-[#1B2A5E] text-white" : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"}`}
+          className={`px-5 py-2 rounded-[0.125rem] text-xs font-label font-bold uppercase tracking-widest transition-colors ${selectedCategory === "all" ? "bg-brand-navy text-white" : "bg-white text-stone-600 border border-stone-200 hover:border-primary hover:text-primary"}`}
         >
-          All
+          All ({products.length})
         </button>
         {categories.map((cat) => (
           <button
             key={cat._id}
             onClick={() => setSelectedCategory(cat.slug.current)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedCategory === cat.slug.current ? "bg-[#8B1515] text-white" : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"}`}
+            className={`px-5 py-2 rounded-[0.125rem] text-xs font-label font-bold uppercase tracking-widest transition-colors ${selectedCategory === cat.slug.current ? "bg-primary text-white" : "bg-white text-stone-600 border border-stone-200 hover:border-primary hover:text-primary"}`}
           >
-            {cat.title}
+            {cat.title} ({categoryCount[cat.slug.current] || 0})
           </button>
         ))}
       </div>
 
       {/* Extra filters panel */}
       {showFilters && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="bg-white border border-stone-200 rounded-[0.125rem] p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-semibold text-stone-500 tracking-wider uppercase mb-2">Colour Family</label>
-            <div className="flex flex-wrap gap-1.5">
+            <label className="block text-xs font-label font-bold text-stone-500 tracking-widest uppercase mb-3">Colour Family</label>
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedColor("all")}
-                className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedColor === "all" ? "bg-[#1B2A5E] text-white border-[#1B2A5E]" : "border-stone-200 text-stone-600 hover:border-stone-300"}`}
+                className={`px-3 py-1.5 rounded-[0.125rem] text-xs border font-medium transition-colors ${selectedColor === "all" ? "bg-brand-navy text-white border-brand-navy" : "border-stone-200 text-stone-600 hover:border-primary"}`}
               >
                 All
               </button>
@@ -130,7 +138,7 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
                 <button
                   key={c}
                   onClick={() => setSelectedColor(c)}
-                  className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedColor === c ? "bg-[#8B1515] text-white border-[#8B1515]" : "border-stone-200 text-stone-600 hover:border-stone-300"}`}
+                  className={`px-3 py-1.5 rounded-[0.125rem] text-xs border font-medium transition-colors ${selectedColor === c ? "bg-primary text-white border-primary" : "border-stone-200 text-stone-600 hover:border-primary"}`}
                 >
                   {c}
                 </button>
@@ -138,11 +146,11 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-stone-500 tracking-wider uppercase mb-2">Finish</label>
-            <div className="flex flex-wrap gap-1.5">
+            <label className="block text-xs font-label font-bold text-stone-500 tracking-widest uppercase mb-3">Finish</label>
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedFinish("all")}
-                className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedFinish === "all" ? "bg-[#1B2A5E] text-white border-[#1B2A5E]" : "border-stone-200 text-stone-600 hover:border-stone-300"}`}
+                className={`px-3 py-1.5 rounded-[0.125rem] text-xs border font-medium transition-colors ${selectedFinish === "all" ? "bg-brand-navy text-white border-brand-navy" : "border-stone-200 text-stone-600 hover:border-primary"}`}
               >
                 All
               </button>
@@ -150,7 +158,7 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
                 <button
                   key={f}
                   onClick={() => setSelectedFinish(f)}
-                  className={`px-3 py-1 rounded-full text-xs border transition-colors ${selectedFinish === f ? "bg-[#8B1515] text-white border-[#8B1515]" : "border-stone-200 text-stone-600 hover:border-stone-300"}`}
+                  className={`px-3 py-1.5 rounded-[0.125rem] text-xs border font-medium transition-colors ${selectedFinish === f ? "bg-primary text-white border-primary" : "border-stone-200 text-stone-600 hover:border-primary"}`}
                 >
                   {f}
                 </button>
@@ -161,23 +169,24 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
       )}
 
       {/* Results count */}
-      <div className="text-sm text-stone-500 mb-5">
+      <div className="text-sm text-stone-500 mb-6 flex items-center gap-2">
+        <span className="material-symbols-outlined text-base text-stone-400">inventory_2</span>
         Showing <span className="font-semibold text-stone-700">{filtered.length}</span> of {products.length} products
       </div>
 
       {/* Product grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-20">
-          <div className="text-stone-400 text-5xl mb-4">🔍</div>
-          <h3 className="text-stone-600 font-medium mb-1">No products match your filters</h3>
-          <p className="text-stone-400 text-sm mb-4">Try adjusting or clearing your search criteria.</p>
-          <button onClick={clearFilters} className="text-[#8B1515] text-sm font-medium hover:text-[#6F1010] transition-colors">
+        <div className="text-center py-24">
+          <span className="material-symbols-outlined text-6xl text-stone-300 mb-4 block">search_off</span>
+          <h3 className="text-stone-600 font-headline text-xl mb-2">No products match your filters</h3>
+          <p className="text-stone-400 text-sm mb-6">Try adjusting or clearing your search criteria.</p>
+          <button onClick={clearFilters} className="text-primary text-xs font-label font-bold uppercase tracking-widest hover:text-primary-container transition-colors">
             Clear all filters
           </button>
         </div>

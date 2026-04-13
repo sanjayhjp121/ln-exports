@@ -47,20 +47,21 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Icons */}
-        <div className="hidden md:flex items-center space-x-6">
+        {/* Right actions */}
+        <div className="hidden md:flex items-center space-x-5">
           <button
             aria-label="Search"
             className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
           >
             search
           </button>
-          <button
-            aria-label="Language"
-            className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+          <Link
+            href="/products"
+            className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2 rounded-[0.125rem] font-bold uppercase tracking-widest text-[10px] hover:bg-primary-container transition-colors"
           >
-            language
-          </button>
+            <span className="material-symbols-outlined text-base">menu_book</span>
+            Catalog
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -88,6 +89,14 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/products"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-[0.125rem] font-bold uppercase tracking-widest text-[10px] w-fit"
+          >
+            <span className="material-symbols-outlined text-base">menu_book</span>
+            Catalog
+          </Link>
         </div>
       )}
     </nav>
