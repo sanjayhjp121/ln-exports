@@ -8,7 +8,7 @@ export default function HeroSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
-    <section className="relative h-screen flex items-end overflow-hidden">
+    <section className="relative h-screen flex items-end overflow-hidden -mt-[104px]">
       {/* Video Background */}
       <div className="absolute inset-0">
         <video

@@ -19,13 +19,18 @@ export default function ContactPage() {
   return (
     <div className="bg-stone-50 min-h-screen">
       {/* Header */}
-      <div className="bg-[#1B2A5E] py-14 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-red-300 text-xs tracking-[0.3em] uppercase font-medium mb-3">
+      <div className="bg-brand-navy py-16 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)",
+          }} />
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <span className="font-label text-xs uppercase tracking-[0.4em] text-primary-fixed-dim font-bold">
             Get In Touch
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white">Contact Us</h1>
-          <p className="text-blue-100/70 mt-2 text-sm max-w-xl">
+          </span>
+          <h1 className="font-headline text-4xl md:text-5xl text-white mt-3">Contact Us</h1>
+          <p className="text-white/60 mt-3 font-light text-lg max-w-xl">
             Looking for a specific stone? Need a custom size or finish? Our team is ready to help.
           </p>
         </div>

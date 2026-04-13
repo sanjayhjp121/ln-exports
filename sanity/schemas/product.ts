@@ -144,6 +144,31 @@ export const productSchema = defineType({
       initialValue: true,
     }),
     defineField({
+      name: "inspirationGallery",
+      title: "Inspiration Gallery",
+      type: "array",
+      description: "Photos showing this product installed in real spaces — kitchens, bathrooms, lobbies, facades, etc.",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alt Text",
+            },
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+              description: 'E.g. "Modern kitchen island with waterfall edge"',
+            },
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: "seoDescription",
       title: "SEO Description",
       type: "text",

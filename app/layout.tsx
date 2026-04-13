@@ -46,7 +46,7 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-        <main>{children}</main>
+        <main className="pt-[104px]">{children}</main>
         <Footer />
         <WhatsAppButton />
       </body>
