@@ -49,6 +49,11 @@ export const PLACEHOLDER_CATEGORIES: Category[] = [
   { _id: "cat-quartzite", title: "Quartzite", slug: { current: "quartzite" }, description: "Natural quartz, extreme hardness", order: 8 },
 ];
 
+export interface InspirationItem {
+  url: string;
+  caption: string;
+}
+
 export interface PlaceholderProduct extends Omit<ProductSummary, "images"> {
   imageUrl: string;
   imageUrls: string[];
@@ -56,6 +61,7 @@ export interface PlaceholderProduct extends Omit<ProductSummary, "images"> {
   description?: PortableTextBlock[];
   thickness?: string[];
   seoDescription?: string;
+  inspirationGallery?: InspirationItem[];
 }
 
 export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
@@ -81,6 +87,12 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Available in slabs, tiles, and custom gangso cuts, Absolute Black Granite can be finished in mirror-polished, honed matte, flamed textured, or leathered surfaces — each bringing out a distinct character from the same stone.",
     ]),
     seoDescription: "Premium Absolute Black Granite from Karnataka, India. Zero-vein, mirror-polished surface ideal for countertops, flooring, and wall cladding. Available in slabs, tiles, and custom cuts.",
+    inspirationGallery: [
+      { url: IMG.absoluteBlack, caption: "Modern kitchen countertop with waterfall edge" },
+      { url: IMG.slatestone, caption: "Commercial lobby flooring with polished finish" },
+      { url: IMG.quartziteNatural, caption: "Bathroom vanity with honed surface" },
+      { url: IMG.pebbles, caption: "Exterior building facade cladding" },
+    ],
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -126,6 +138,11 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Kashmir White is especially popular in Scandinavian and minimalist interior designs, where its quiet elegance enhances natural light and creates a sense of calm sophistication.",
     ]),
     seoDescription: "Kashmir White Granite with luminous white base and subtle garnet flecks. Perfect for bright, modern kitchens and bathroom vanities.",
+    inspirationGallery: [
+      { url: IMG.whiteMarble, caption: "Bright Scandinavian kitchen with Kashmir White island" },
+      { url: IMG.limestone, caption: "Minimalist bathroom vanity" },
+      { url: IMG.quartz, caption: "Open-concept living room flooring" },
+    ],
     category: { _id: "cat-granite", title: "Granite", slug: { current: "granite" } },
   },
   {
@@ -196,6 +213,12 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Every slab we supply is hand-selected at the quarry to ensure consistency of colour, minimal veining, and structural integrity. Available in both standard slab sizes and custom profiles for bespoke architectural projects.",
     ]),
     seoDescription: "Makrana White Marble — the marble of the Taj Mahal. Pristine white with subtle grey veining, ideal for luxury flooring, wall cladding, and temple architecture.",
+    inspirationGallery: [
+      { url: IMG.makranaWhite, caption: "Grand foyer with Makrana White flooring" },
+      { url: IMG.whiteMarble, caption: "Heritage temple interior restoration" },
+      { url: IMG.limestone, caption: "Luxury villa living room with polished marble" },
+      { url: IMG.quartz, caption: "Hotel reception with back-lit marble wall" },
+    ],
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -219,6 +242,11 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Each slab is unique — we provide high-resolution slab photography so architects and designers can book-match or select individual slabs for their projects.",
     ]),
     seoDescription: "Portoro Gold Marble with dramatic gold veining on deep black. A statement of opulence for luxury interiors, feature walls, and high-end commercial spaces.",
+    inspirationGallery: [
+      { url: IMG.marble, caption: "Five-star hotel lobby feature wall" },
+      { url: IMG.absoluteBlack, caption: "Penthouse bar counter with book-matched slabs" },
+      { url: IMG.panels, caption: "Luxury restaurant interior with gold-vein accent" },
+    ],
     category: { _id: "cat-marble", title: "Marble", slug: { current: "marble" } },
   },
   {
@@ -310,6 +338,11 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Teak Sandstone is frost-resistant and weathers gracefully over time, developing a distinguished patina that adds character to any project.",
     ]),
     seoDescription: "Teak Sandstone from Rajasthan with warm wood-like grain patterns. Ideal for exterior cladding, landscaping, paving, and pool surrounds.",
+    inspirationGallery: [
+      { url: IMG.sandstone, caption: "Garden pathway with natural split teak sandstone" },
+      { url: IMG.panels, caption: "Exterior wall cladding on a heritage villa" },
+      { url: IMG.pebbles, caption: "Pool surround with honed finish" },
+    ],
     category: { _id: "cat-sandstone", title: "Sandstone", slug: { current: "sandstone" } },
   },
   {
@@ -379,6 +412,11 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Its cool surface stays comfortable underfoot even in tropical climates, making it a preferred choice for corridors, verandahs, and pool decks.",
     ]),
     seoDescription: "Kota Blue Limestone from Rajasthan. Exceptionally hard limestone ideal for flooring, pathways, pool decks, and high-traffic commercial areas.",
+    inspirationGallery: [
+      { url: IMG.limestone, caption: "Traditional Indian courtyard with Kota stone flooring" },
+      { url: IMG.slatestone, caption: "Corridor flooring in a commercial building" },
+      { url: IMG.pebbles, caption: "Resort pool deck with natural finish" },
+    ],
     category: { _id: "cat-limestone", title: "Limestone", slug: { current: "limestone" } },
   },
   {
@@ -426,6 +464,12 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Manufactured in our partner facilities in Morbi, Gujarat, each tile undergoes rigorous quality control to ensure colour consistency across production batches.",
     ]),
     seoDescription: "Statuario Look Vitrified Tile with realistic marble-effect HD printing. Large formats available. Stain-resistant, low-maintenance alternative to natural marble.",
+    inspirationGallery: [
+      { url: IMG.tiles, caption: "Modern living room with seamless large-format tiles" },
+      { url: IMG.whiteMarble, caption: "Luxury apartment lobby" },
+      { url: IMG.marble, caption: "Five-star hotel corridor with statuario effect" },
+      { url: IMG.limestone, caption: "Contemporary showroom flooring" },
+    ],
     category: { _id: "cat-tiles", title: "Tiles", slug: { current: "tiles" } },
   },
   {
@@ -540,6 +584,12 @@ export const PLACEHOLDER_PRODUCTS: PlaceholderProduct[] = [
       "Available in jumbo slab sizes up to 320×160 cm and in both 20mm and 30mm thicknesses, allowing seamless waterfall edges and integrated sink solutions.",
     ]),
     seoDescription: "Calacatta Gold Quartz — engineered perfection. Non-porous, stain-resistant surface with bold golden veining. Ideal for kitchen countertops and commercial surfaces.",
+    inspirationGallery: [
+      { url: IMG.quartz, caption: "Family kitchen island with waterfall edge" },
+      { url: IMG.whiteMarble, caption: "Master bathroom double vanity" },
+      { url: IMG.tiles, caption: "Office pantry countertop" },
+      { url: IMG.marble, caption: "Modern bar top with integrated sink" },
+    ],
     category: { _id: "cat-quartz", title: "Quartz", slug: { current: "quartz" } },
   },
   {

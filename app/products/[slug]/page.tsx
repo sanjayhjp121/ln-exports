@@ -14,6 +14,7 @@ import {
   type PlaceholderProduct,
 } from "@/lib/placeholder-data";
 import ImageGallery from "@/components/ImageGallery";
+import InspirationGallery from "@/components/InspirationGallery";
 import EnquiryForm from "@/components/EnquiryForm";
 import ProductCard from "@/components/ProductCard";
 import { PortableText } from "@portabletext/react";
@@ -107,6 +108,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const p = product || placeholderProduct!;
   const isPlaceholder = !product;
   const imageUrls = isPlaceholder ? (placeholderProduct as PlaceholderProduct).imageUrls : undefined;
+  const inspirationItems = isPlaceholder ? (placeholderProduct as PlaceholderProduct).inspirationGallery : undefined;
+  const sanityInspirationImages = product?.inspirationGallery;
   const relatedItems = product ? related : (placeholderRelated as unknown as ProductSummary[]);
 
   const specs = [
@@ -280,6 +283,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
           </div>
         </div>
+
+        {/* Inspiration Gallery */}
+        <InspirationGallery
+          sanityImages={sanityInspirationImages}
+          placeholderItems={inspirationItems}
+          productName={p.title}
+        />
 
         {/* Enquiry form */}
         <div className="mt-20 max-w-2xl mx-auto">

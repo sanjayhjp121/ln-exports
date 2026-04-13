@@ -49,4 +49,5 @@ export interface Product extends ProductSummary {
   description?: PortableTextBlock[];
   thickness?: string[];
   seoDescription?: string;
+  inspirationGallery?: SanityImage[];
 }

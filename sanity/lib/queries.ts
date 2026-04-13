@@ -78,6 +78,11 @@ export const productBySlugQuery = groq`
       alt,
       caption
     },
+    inspirationGallery[] {
+      ...,
+      alt,
+      caption
+    },
     "category": category->{_id, title, slug}
   }
 `;
